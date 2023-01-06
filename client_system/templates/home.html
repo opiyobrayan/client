@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% block  content %}
+{% load widget_tweaks %}
+{% load static %}
+
+{% if user.is_authenticated %}
+<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#">Client System</a>
+  <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  
+  <div class="navbar-nav">
+    <div class="nav-item text-nowrap">
+      <a class="nav-link px-3" href="{% url 'logout-user' %}">Sign out</a>
+    </div>
+  </div>
+</header>
+
+<div class="container-fluid">
+  <div class="row">
+     {% include 'nav.html' %}
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1 class="h2" style="width:100%;text-align: center;height: 50px;color:blue;box-shadow: 30px 20px 20px grey; ">Home Page</h1>       
+        </div>
+        <div class="row" style="padding-top:50px ;">
+          <div class="container">
+          <div class="card">
+            <div class="card-header " style="background-color: white;text-align: center;">
+              <h1><img src="{% static 'KELIN-logo.png' %}" style="width:200px;height:100px;padding: 10px;"> WLPR CLIENT MANAGEMENT SYSTEM</h1>
+            </div>
+            <div class="card-header ">
+              <ul class="nav justify-content-left" style="background-color:gray;">
+                <li class="nav-item">
+                  <h2><a class="nav-link" href="#" style="text-shadow: #2b3b2a; color:whitesmoke"><strong>About</strong></a></h2>
+                </li>
+                <li class="nav-item">
+                  <h2><a class="nav-link" href="#" style="text-shadow: #2b3b2a; color:whitesmoke"><strong>Contact Us</strong></a></h2>
+                </li> 
+              </ul>  
+            </div>
+            <div class="card-body">
+              {% if all_clients %}
+                {% for all in all_clients %}
+                <h5 class="card-title">Clients Reffer to you by {{all.reffer_to}}; </h5>
+                <button class="modal-open block w-full md:w-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button" data-modal="small-modal">
+                  {{ all.name }}
+                </button>
+                <div id="small-modal" tabindex="-1" aria-hidden="true" class="my-modal hidden flex justify-center overflow-y-auto overflow-x-auto fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
+                  <div class="relative p-4 w-full max-w-lg h-full md:h-auto">
+                      <!-- Modal content -->
+                      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                          <button type="button" class="modal-close absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="authentication-modal">
+                              <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                              <span class="sr-only">Close modal</span>
+                          </button>
+                          <div class="p-6 space-y-6">
+                            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                <b>Client name</b>: {{all.name}}
+                                <br>
+                                <b>client contacts</b>: {{all.number}}
+                                <br>
+                                <b>Brief Notes </b>: {{ all.notes}}
+                            </p>
+        
+                            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                                <strong>{{all.reffer_to}}'s Comments;</strong>
+                                {{all.officer_comment}}
+                            </p>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+              
+               
+              {% endfor %}
+              {% else %}
+              <h1> No Client Reffered Yet .....</h1>
+              {% endif %}
+              
+            </div>
+          </div>
+          </div>
+        </div>
+        
+       
+  
+      </main>
+  </div>
+</div>
+<script src={% static "main.js" %}></script> 
+{% else %}
+<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#">Client System</a>
+  <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  
+  <div class="navbar-nav">
+    <div class="nav-item text-nowrap">
+      <a class="nav-link px-3" href="{% url 'login-user' %}">Log in</a>
+    </div>
+  </div>
+</header>
+
+{% endif %}
+{% endblock %}

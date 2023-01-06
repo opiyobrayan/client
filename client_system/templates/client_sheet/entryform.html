@@ -1,0 +1,484 @@
+
+{% extends 'base.html' %}
+{% block  content %}
+{% load widget_tweaks %}
+{% load static %}
+<style>
+   
+    body {
+  
+   background-repeat: no-repeat;
+   background-attachment: fixed;
+   background-size: cover;
+ }
+     h1 {text-align: center;}
+     h2 {
+     margin: 0;
+ }
+ #multi-step-form-container {
+     margin-top: 5rem;
+ }
+ .text-center {
+     text-align: center;
+ }
+ .mx-auto {
+     margin-left: auto;
+     margin-right: auto;
+ }
+ .pl-0 {
+     padding-left: 0;
+ }
+ .button {
+     padding: 0.7rem 1.5rem;
+     border: 1px solid #4361ee;
+     background-color: #4361ee;
+     color: #fff;
+     border-radius: 5px;
+     cursor: pointer;
+ }
+ .submit-btn {
+     border: 1px solid #0e9594;
+     background-color: #0e9594;
+ }
+ .mt-3 {
+     margin-top: 2rem;
+ }
+ .d-none {
+     display: none;
+ }
+ .form-step {
+     border: 1px solid rgba(0, 0, 0, 0.1);
+     border-radius: 20px;
+     padding: 3rem;
+ }
+ .font-normal {
+     font-weight: normal;
+ }
+ ul.form-stepper {
+     counter-reset: section;
+     margin-bottom: 3rem;
+ }
+ ul.form-stepper .form-stepper-circle {
+     position: relative;
+ }
+ ul.form-stepper .form-stepper-circle span {
+     position: absolute;
+     top: 50%;
+     left: 50%;
+     transform: translateY(-50%) translateX(-50%);
+ }
+ .form-stepper-horizontal {
+     position: relative;
+     display: -webkit-box;
+     display: -ms-flexbox;
+     display: flex;
+     -webkit-box-pack: justify;
+     -ms-flex-pack: justify;
+     justify-content: space-between;
+ }
+ ul.form-stepper > li:not(:last-of-type) {
+     margin-bottom: 0.625rem;
+     -webkit-transition: margin-bottom 0.4s;
+     -o-transition: margin-bottom 0.4s;
+     transition: margin-bottom 0.4s;
+ }
+ .form-stepper-horizontal > li:not(:last-of-type) {
+     margin-bottom: 0 !important;
+ }
+ .form-stepper-horizontal li {
+     position: relative;
+     display: -webkit-box;
+     display: -ms-flexbox;
+     display: flex;
+     -webkit-box-flex: 1;
+     -ms-flex: 1;
+     flex: 1;
+     -webkit-box-align: start;
+     -ms-flex-align: start;
+     align-items: start;
+     -webkit-transition: 0.5s;
+     transition: 0.5s;
+ }
+ .form-stepper-horizontal li:not(:last-child):after {
+     position: relative;
+     -webkit-box-flex: 1;
+     -ms-flex: 1;
+     flex: 1;
+     height: 1px;
+     content: "";
+     top: 32%;
+ }
+ .form-stepper-horizontal li:after {
+     background-color: #dee2e6;
+ }
+ .form-stepper-horizontal li.form-stepper-completed:after {
+     background-color: #4da3ff;
+ }
+ .form-stepper-horizontal li:last-child {
+     flex: unset;
+ }
+ ul.form-stepper li a .form-stepper-circle {
+     display: inline-block;
+     width: 40px;
+     height: 40px;
+     margin-right: 0;
+     line-height: 1.7rem;
+     text-align: center;
+     background: rgba(0, 0, 0, 0.38);
+     border-radius: 50%;
+ }
+ .form-stepper .form-stepper-active .form-stepper-circle {
+     background-color: #4361ee !important;
+     color: #fff;
+ }
+ .form-stepper .form-stepper-active .label {
+     color: #4361ee !important;
+ }
+ .form-stepper .form-stepper-active .form-stepper-circle:hover {
+     background-color: #4361ee !important;
+     color: #fff !important;
+ }
+ .form-stepper .form-stepper-unfinished .form-stepper-circle {
+     background-color: #f8f7ff;
+ }
+ .form-stepper .form-stepper-completed .form-stepper-circle {
+     background-color: #0e9594 !important;
+     color: #fff;
+ }
+ .form-stepper .form-stepper-completed .label {
+     color: #0e9594 !important;
+ }
+ .form-stepper .form-stepper-completed .form-stepper-circle:hover {
+     background-color: #0e9594 !important;
+     color: #fff !important;
+ }
+ .form-stepper .form-stepper-active span.text-muted {
+     color: #fff !important;
+ }
+ .form-stepper .form-stepper-completed span.text-muted {
+     color: #fff !important;
+ }
+ .form-stepper .label {
+     font-size: 1rem;
+     margin-top: 0.5rem;
+ }
+ .form-stepper a {
+     cursor: default;
+ }
+ </style>
+ 
+<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#">Client System</a>
+  <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  
+  <div class="navbar-nav">
+    <div class="nav-item text-nowrap">
+      <a class="nav-link px-3" href="{% url 'logout-user' %}">Sign out</a>
+    </div>
+  </div>
+</header>
+
+<div class="container-fluid">
+  <div class="row">
+     {% include 'nav.html' %}
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+          <h1 class="h2" style="width:100%;text-align: center;height: 50px;color:blue;box-shadow: 30px 20px 20px grey; ">Client Engagement Form</h1>       
+        </div>
+        <div class="row" style="padding-top:30px;">
+
+            <div class="card flex justify-center" style="width:100%;background-color:#dee2e6;">
+        
+                <div class="card-body">
+                    <div>
+                        <div id="multi-step-form-container">
+                            <!-- Form Steps / Progress Bar -->
+                            <ul class="form-stepper form-stepper-horizontal text-center mx-auto pl-0">
+                                <!-- Step 1 -->
+                                <li class="form-stepper-active text-center form-stepper-list" step="1">
+                                    <a class="mx-2">
+                                        <span class="form-stepper-circle" style="font-size:xx-large;font-weight: bolder;">
+                                            <span>1</span>
+                                        </span>
+                                        <div class="label">Client Details</div>
+                                    </a>
+                                </li>
+                                <!-- Step 2 -->
+                                <li class="form-stepper-unfinished text-center form-stepper-list" step="2">
+                                    <a class="mx-2">
+                                        <span class="form-stepper-circle text-muted " style="font-size:xx-large;font-weight: bolder;">
+                                            <span>2</span>
+                                        </span>
+                                        <div class="label text-muted">Your Comments </div>
+                                    </a>
+                                </li>
+                                <!-- Step 3 -->
+                                <li class="form-stepper-unfinished text-center form-stepper-list" step="3">
+                                    <a class="mx-2">
+                                        <span class="form-stepper-circle text-muted" style="font-size:xx-large;font-weight: bolder;">
+                                            <span>3</span>
+                                        </span>
+                                        <div class="label text-muted">Reffer To</div>
+                                    </a>
+                                </li>
+                            </ul>
+                            <!-- Step Wise Form Content -->
+                            
+                            <form id="userAccountSetupForm" name="userAccountSetupForm" enctype="multipart/form-data" method="POST">
+                                {% csrf_token %}
+                                <!-- Step 1 Content -->
+                                <section id="step-1" class="form-step ">
+                                    <button class="modal-open block w-full md:w-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button" data-modal="client-detail">
+                                       Enter Client Details
+                                    </button>
+                                    <!-- Client Details -->
+                                    <!-- Small Modal -->
+                                    <div id="client-detail" tabindex="-1" aria-hidden="true" class="my-modal hidden flex justify-center overflow-y-auto overflow-x-auto fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
+                                        <div class="relative p-4 w-full max-w-lg h-full md:h-auto">
+                                            <!-- Modal content -->
+                                            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                                <button type="button" class="modal-close absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="authentication-modal">
+                                                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                                    <span class="sr-only">Close modal</span>
+                                                </button>
+                                                <div class="py-6 px-6 lg:px-8">
+                                                    <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Enter Client Details</h3>
+                                   
+                                                   <div class="row">
+                                                    <div class="col-md-6">
+                                                    <div>
+                                                        {% render_field form.name class=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full max-w-lg h-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Enter The Name of the client" %}
+                                                    </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                    <div>
+                                                    {% render_field form.county class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full max-w-lg h-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Enter The County of the client" %}
+                                                    </div>
+                                                    </div>
+
+
+                                                    </div>
+                                                    <br>
+
+                                                    <div class="row">
+                                                    <div class="col-md-6">
+                                                    <div>
+                                                    {% render_field form.subcounty class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full max-w-lg h-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Enter client  SubCounty" %}
+                                                    </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                    <div>
+                                                    {% render_field form.number class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full max-w-lg h-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Enter client Phone Number" %}
+                                                    </div>
+                                                    </div>
+                                                    </div>
+                                                    <br>
+
+                                                    <div class="row">
+                                                    <div>
+                                                    {% render_field form.notes class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full max-w-lg h-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Give Brief Notes about the client " %}
+                                                    </div>
+                                                    </div>
+                                                    <br>
+                                                    <button class="button submit-btn" type="submit" >Save</button>
+                                                    <button class="button btn-navigate-form-step" type="button" step_number="2">Next</button>
+                                               </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                                <!-- Step 2 Content, default hidden on page load. -->
+                                <section id="step-2" class="form-step d-none">
+                               
+                                    <!-- Step 2 input fields -->
+                                    
+                                        <button class="modal-open block w-full md:w-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button" data-modal="your-comments">
+                                            Add Your Comments
+                                        </button>
+                                        <!-- Small Modal -->
+                                        <div id="your-comments" tabindex="-1" aria-hidden="true" class="my-modal hidden flex justify-center overflow-y-auto overflow-x-auto fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
+                                            <div class="relative p-4 w-full max-w-lg h-full md:h-auto">
+                                                <!-- Modal content -->
+                                                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                                    <button type="button" class="modal-close absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="authentication-modal">
+                                                        <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                                        <span class="sr-only">Close modal</span>
+                                                    </button>
+                                                    <div class="py-6 px-6 lg:px-8">
+                                                        <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Add Your Comments</h3>
+                                                    <div>
+                                                        {% render_field form.officer class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full  p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="your name" %}
+                                                    </div>
+                                                    <br>
+                                                    <div>
+                                                        {% render_field form.officer_comment class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full max-w-lg h-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="your comments" %}
+                                                    </div>
+                                                    <br> 
+                                                    <button class="button btn-navigate-form-step " type="button" step_number="1">Prev</button>
+                                                    <button class="button submit-btn" type="submit" >Save</button>
+                                                    <button class="button btn-navigate-form-step" type="button"  step_number="3">Next</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    
+                                    </div>
+                                    <div class="mt-3">
+                                        
+                                    </div>
+                                </section>
+                                <!-- Step 3 Content, default hidden on page load. -->
+                                <section id="step-3" class="form-step d-none">
+                                    <button class="modal-open block w-full md:w-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button" data-modal="reffer-to">
+                                        Reffer To
+                                     </button>
+                                    <!-- Reffer Client -->
+                                    <div id="reffer-to" tabindex="-1" aria-hidden="true" class="my-modal hidden flex justify-center overflow-y-auto overflow-x-auto fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
+                                        <div class="relative p-4 w-full max-w-lg h-full md:h-auto">
+                                            <!-- Modal content -->
+                                            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                                                <button type="button" class="modal-close absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="authentication-modal">
+                                                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                                    <span class="sr-only">Close modal</span>
+                                                </button>
+                                                <div class="py-6 px-6 lg:px-8">
+                                                    <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Reffer To</h3>
+                                    
+                                                    <div>
+                                                        {% render_field form.reffer_to class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Reffer To" %}
+                                                    </div>
+                                                    <br>
+                                                    <button class="button btn-navigate-form-step" type="button" step_number="2">Prev</button>
+                                                    <button class="button submit-btn" type="submit">Submit</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    
+                                    </div>
+                                </section>
+                            
+                            </form>
+                        </div>
+                      </div>
+                      
+                  
+                </div>
+            </div>
+
+        </div>
+       
+        
+       
+  
+      </main>
+  </div>
+</div>
+<script >
+
+    var modalBtns=document.querySelectorAll('.modal-open');
+    
+    modalBtns.forEach(function(btn){
+        btn.onclick=function(){
+            var modal=btn.getAttribute('data-modal');
+            document.getElementById(modal).style.display='flex';
+        };
+    
+    });
+    
+    var closeBtns=document.querySelectorAll('.modal-close');
+    
+    closeBtns.forEach(function(btn){
+        btn.onclick=function(){
+            var modal=(btn.closest('.my-modal').style.display='none');
+        };
+    });
+    
+    window.onclick = function(e){
+        if(e.target.classList.contains('my-modal')){
+            e.target.style.display = 'none';
+        }
+    };
+    
+        
+    /**
+     * Define a function to navigate betweens form steps.
+     * It accepts one parameter. That is - step number.
+     */
+     const navigateToFormStep = (stepNumber) => {
+        /**
+         * Hide all form steps.
+         */
+        document.querySelectorAll(".form-step").forEach((formStepElement) => {
+            formStepElement.classList.add("d-none");
+        });
+        /**
+         * Mark all form steps as unfinished.
+         */
+        document.querySelectorAll(".form-stepper-list").forEach((formStepHeader) => {
+            formStepHeader.classList.add("form-stepper-unfinished");
+            formStepHeader.classList.remove("form-stepper-active", "form-stepper-completed");
+        });
+        /**
+         * Show the current form step (as passed to the function).
+         */
+        document.querySelector("#step-" + stepNumber).classList.remove("d-none");
+        /**
+         * Select the form step circle (progress bar).
+         */
+        const formStepCircle = document.querySelector('li[step="' + stepNumber + '"]');
+        /**
+         * Mark the current form step as active.
+         */
+        formStepCircle.classList.remove("form-stepper-unfinished", "form-stepper-completed");
+        formStepCircle.classList.add("form-stepper-active");
+        /**
+         * Loop through each form step circles.
+         * This loop will continue up to the current step number.
+         * Example: If the current step is 3,
+         * then the loop will perform operations for step 1 and 2.
+         */
+        for (let index = 0; index < stepNumber; index++) {
+            /**
+             * Select the form step circle (progress bar).
+             */
+            const formStepCircle = document.querySelector('li[step="' + index + '"]');
+            /**
+             * Check if the element exist. If yes, then proceed.
+             */
+            if (formStepCircle) {
+                /**
+                 * Mark the form step as completed.
+                 */
+                formStepCircle.classList.remove("form-stepper-unfinished", "form-stepper-active");
+                formStepCircle.classList.add("form-stepper-completed");
+            }
+        }
+    };
+    /**
+     * Select all form navigation buttons, and loop through them.
+     */
+    document.querySelectorAll(".btn-navigate-form-step").forEach((formNavigationBtn) => {
+        /**
+         * Add a click event listener to the button.
+         */
+        formNavigationBtn.addEventListener("click", () => {
+            /**
+             * Get the value of the step.
+             */
+            const stepNumber = parseInt(formNavigationBtn.getAttribute("step_number"));
+            /**
+             * Call the function to navigate to the target form step.
+             */
+            navigateToFormStep(stepNumber);
+        });
+    });
+    
+    
+    
+</script>
+
+{% endblock %}
+
+
+  

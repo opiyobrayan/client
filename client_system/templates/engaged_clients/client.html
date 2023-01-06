@@ -1,0 +1,78 @@
+{% include 'base.html' %}
+{% block content %}   
+{% load widget_tweaks %}
+<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+  <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#">CLIENT SYSTEM</a>
+  <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  
+  <div class="navbar-nav">
+    <div class="nav-item text-nowrap">
+      <a class="nav-link px-3" href="{% url 'logout-user' %}">Sign out</a>
+    </div>
+  </div>
+</header>
+
+
+   
+  <div class="row" >
+     {% include 'nav.html' %}
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2" style="width:100%;text-align: center;height: 40px;color:blue;box-shadow: 30px 20px 20px grey;"> 
+            {% for name in client %}{{ name.name }}{%  endfor %}</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">     
+        </div>
+      </div>
+      <br>
+
+      <div class="row" style="background: lightblue;box-shadow: 20px 20px 20px grey;padding: 20px 20px;" >
+        {% for client in client %}
+        <div class="row"style='padding:10px 10px'>
+            <h1> <strong>Name of the Client</strong> : {{ client.name}} </h1>
+            <br>
+            <h1> <strong>County of the Client</strong> : {{ client.county}} </h1>
+            <br>
+            <h1> <strong>Sub Countyof the Client</strong> : {{ client.subcounty}} </h1>
+            <br>
+            <h1> <strong>Client phone Number</strong> : {{ client.number}} </h1>
+            <br>   
+        </div>
+        
+        <hr>
+        <br>
+        <div class="row">
+            <h1><strong> Breif Notes about the clients</strong></h1>
+            <p style="padding-left:15px">{{ client.notes }}</p> 
+        </div>
+
+        <hr>
+        <br>
+        <div class="row">
+            <h1><strong>{{client.officer.first_name}}-{{client.officer.last_name}} 's comments about the client</strong></h1>
+            <p style="padding-left:15px"> {{client.officer_comment}}</dpv>
+        </div>
+        <br>
+        <hr>
+        <br>
+        <div class="row">
+            <p style="padding-left:15px"> The cleint Mentioned above( <strong>{{client.name}}</strong>)  was <strong>Reffer To</strong>- <strong>{{client.reffer_to}}
+                on {{ client.created_at }}
+            </strong></p>
+        </div>
+        
+        {% endfor %}
+
+      </div>
+
+       
+    </main>
+  </div>
+
+   
+
+</script><script src="js/main.js"></script>
+ 
+
+{% endblock %}
